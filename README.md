@@ -1,9 +1,9 @@
 <h1 align="center">bet-on-it</h1>
 
 <p align="center">
-  <strong>Predict first. Explain later.</strong>
+  <strong>A skill for predicting before changing code.</strong>
   <br />
-  Make coding agents put a falsifiable prediction on the record before a meaningful change.
+  Predict first. Explain later.
 </p>
 
 <p align="center">
@@ -21,11 +21,9 @@
 
 ---
 
-Coding agents are excellent at explaining a result after they have seen it.
+Agents can explain almost any result after seeing it.
 
-That becomes a problem when the explanation quietly changes to fit the evidence. A speculative edit survives, a weak hypothesis sounds confirmed, and the next change builds on a story that was never actually tested.
-
-`bet-on-it` makes the agent state what it expects *before* the experiment, then settle that bet against what happened.
+`bet-on-it` records the hypothesis, expected result, and losing condition before a meaningful change. After the experiment, it compares the observation with the prediction and drops unsupported changes.
 
 Use `bet-on-it` before an action to commit to a prediction. Use [`prove-me-wrong`](https://github.com/Lum1104/prove-me-wrong) once a claim or fix is favored to design an attack that could defeat it.
 
