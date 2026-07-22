@@ -1,4 +1,0 @@
-interface:
-  display_name: "Bet On It"
-  short_description: "Record predictions before changing the code"
-  default_prompt: "Use $bet-on-it to make and evaluate a concrete prediction before this change."
