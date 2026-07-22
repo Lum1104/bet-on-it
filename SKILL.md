@@ -1,6 +1,6 @@
 ---
 name: bet-on-it
-description: Make coding-agent reasoning falsifiable by recording a concrete prediction before a meaningful diagnostic experiment or implementation change, then comparing the observation with that prediction. Use for debugging failures, testing nontrivial hypotheses, performance investigations, behavior-changing fixes, speculative edits, or any change justified by a suspected cause where a post-hoc explanation could hide that the original hypothesis failed.
+description: Use when debugging or making a speculative behavior change where the current hypothesis should predict an observable result before the next experiment or edit.
 ---
 
 # Bet On It
