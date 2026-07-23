@@ -23,7 +23,7 @@
 
 Agents can explain almost any result after seeing it.
 
-`bet-on-it` records the hypothesis, expected result, and losing condition before a meaningful change. After the experiment, it compares the observation with the prediction and drops unsupported changes.
+`bet-on-it` records the hypothesis, expected result, and losing condition before an action that depends on an uncertain causal explanation. After the experiment, it compares the observation with the prediction and drops unsupported changes.
 
 Use `bet-on-it` before an action to commit to a prediction. Use [`prove-me-wrong`](https://github.com/Lum1104/prove-me-wrong) once a claim or fix is favored to design an attack that could defeat it.
 
@@ -41,7 +41,7 @@ Install globally for all projects:
 npx skills add Lum1104/bet-on-it -g
 ```
 
-Then invoke it before a diagnostic or behavior-changing step:
+Then invoke it when the next diagnostic or behavior-changing step depends on an uncertain cause:
 
 ```text
 Use $bet-on-it to debug these duplicate checkout requests.
@@ -58,24 +58,25 @@ The explanation appeared after the edit. There is no record of what the agent ex
 ### After
 
 ```text
+Bet 1
 Hypothesis: A React effect binds the submit handler twice after rerender.
 Expected observation: Instrumentation records two handler calls per click.
-Expected change: Correcting the effect produces one client request.
+Expected change: none; this step only observes the current path.
 Disproof: One client call still produces two server writes.
 ```
 
-Instrumentation records one client call and two server writes. The bet **failed**. The agent reverts the effect edit and tests a retry/idempotency hypothesis next.
+Instrumentation records one client call and two server writes. Bet 1 **failed**, so the agent does not make the effect edit. It forms a retry/idempotency hypothesis next. Only a matched Bet 1 would justify Bet 2 predicting the result of correcting the binding.
 
 ## The core mechanism
 
 ### 1. Record the bet
 
-Before a meaningful experiment or change, write four short fields:
+When the next action depends on an uncertain causal explanation, write four short fields:
 
 ```text
 Hypothesis: <current causal explanation>
 Expected observation: <specific result expected next>
-Expected change: <files, state, metric, or behavior expected to change>
+Expected change: <files, state, metric, or behavior; none for observation-only steps>
 Disproof: <result that would make the hypothesis untenable>
 ```
 
@@ -83,7 +84,7 @@ A useful prediction names a value, error, event, diff, or behavior. “This shou
 
 ### 2. Run the smallest discriminating step
 
-Choose the cheapest safe action that separates the current hypothesis from a plausible alternative. Avoid bundling unrelated edits; an ambiguous diff produces an ambiguous result.
+Choose the cheapest safe action that separates the current hypothesis from a plausible alternative. Prefer read-only observation or temporary instrumentation before a persistent edit. Avoid bundling unrelated changes.
 
 ### 3. Settle it without rewriting it
 
@@ -107,11 +108,11 @@ Next action: <continue, refine, abandon, revert, or gather a better signal>
 ```text
 Hypothesis: Repeated JSON parsing dominates request latency.
 Expected observation: A profile attributes more than half of the slow path to JSON.parse.
-Expected change: Caching the parsed value reduces p95 latency in the same benchmark.
-Disproof: Parsing is a minor sample or p95 does not move outside run-to-run noise.
+Expected change: none; this step only profiles the baseline.
+Disproof: Parsing is a minor sample in the slow path.
 ```
 
-If the profile shows database wait time instead, the parsing optimization has lost its justification. It should not stay merely because it looks reasonable.
+If the profile instead shows database wait time, the parsing optimization has no justification. Only a matched profile bet should lead to a second bet predicting how caching changes p95 latency.
 
 ## Use it for
 
