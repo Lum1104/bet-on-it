@@ -1,9 +1,9 @@
 <h1 align="center">bet-on-it</h1>
 
 <p align="center">
-  <strong>A skill for predicting before changing code.</strong>
+  <strong>Your agents change the code, then explain why.</strong>
   <br />
-  Predict first. Explain later.
+  This skill makes them bet on the result first.
 </p>
 
 <p align="center">
